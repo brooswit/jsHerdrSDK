@@ -1,0 +1,21 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: latest }
+      - run: bun install --frozen-lockfile
+      - name: generated code matches schema
+        run: bun run generate && bun run scripts/verify-generated-is-committed.ts
+      - run: bun run typecheck
+      - run: bun test test/unit
+      - name: build
+        run: bun run build
+      # Live tests need a running herdr and are run locally before merge:
+      #   HERDR_LIVE=1 bun test test/live
