@@ -6,3 +6,8 @@ export * from "./pane.js";
 export * from "./workspace.js";
 export * from "./tab.js";
 export * from "./worktree.js";
+export * from "./layout.js";
+export * from "./plugin.js";
+export * from "./integration.js";
+export * from "./client-ui.js";
+export * from "./events.js";

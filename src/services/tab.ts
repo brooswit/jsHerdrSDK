@@ -8,4 +8,5 @@ export class TabService extends Service {
   focus(p: params.TabTarget) { return this.call("tab.focus", p); }
   rename(p: params.TabRenameParams) { return this.call("tab.rename", p); }
   close(p: params.TabTarget) { return this.call("tab.close", p); }
+  move(p: params.TabMoveParams) { return this.call("tab.move", p); }
 }
