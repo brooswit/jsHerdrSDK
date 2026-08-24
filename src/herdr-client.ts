@@ -1,0 +1,46 @@
+import type { RpcOptions } from "./client/rpc.js";
+import { defaultSocketPath } from "./transport/socket-path.js";
+import { Subscription } from "./events/subscription.js";
+import type { Subscription as SubscriptionSpec } from "./generated/params.js";
+import { AgentService, PaneService, ServerService, SessionService, TabService, WorkspaceService, WorktreeService } from "./services/index.js";
+import { rpc } from "./client/rpc.js";
+import type { Method } from "./generated/params.js";
+import type { ParamsOf, ResultOf } from "./client/typed.js";
+
+export interface HerdrClientOptions {
+  socketPath?: string;
+  timeoutMs?: number;
+}
+
+/** Entry point. One instance is cheap: it holds options, not a connection. */
+export class HerdrClient {
+  readonly opts: RpcOptions;
+  readonly server: ServerService;
+  readonly session: SessionService;
+  readonly agent: AgentService;
+  readonly pane: PaneService;
+  readonly workspace: WorkspaceService;
+  readonly tab: TabService;
+  readonly worktree: WorktreeService;
+
+  constructor(o: HerdrClientOptions = {}) {
+    this.opts = { socketPath: o.socketPath ?? defaultSocketPath(), ...(o.timeoutMs !== undefined ? { timeoutMs: o.timeoutMs } : {}) };
+    this.server = new ServerService(this.opts);
+    this.session = new SessionService(this.opts);
+    this.agent = new AgentService(this.opts);
+    this.pane = new PaneService(this.opts);
+    this.workspace = new WorkspaceService(this.opts);
+    this.tab = new TabService(this.opts);
+    this.worktree = new WorktreeService(this.opts);
+  }
+
+  /** Escape hatch: any of the 91 methods, fully typed. */
+  call<M extends Method>(method: M, params: ParamsOf<M>): Promise<ResultOf<M>> {
+    return rpc(this.opts, method, params);
+  }
+
+  /** Long-lived push stream. Iterate it; `close()` when done. */
+  subscribe(subscriptions: SubscriptionSpec[]): Promise<Subscription> {
+    return Subscription.open(this.opts.socketPath, subscriptions);
+  }
+}
