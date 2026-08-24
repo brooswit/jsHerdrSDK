@@ -1,0 +1,6 @@
+[test]
+coverage = true
+coverageSkipTestFiles = true
+coverageReporter = ["text"]
+coveragePathIgnorePatterns = ["src/generated/**", "scripts/gen/**", "scripts/parity/check.ts", "scripts/release/check.ts", "scripts/release/facts.ts", "scripts/release/publish-needed.ts", "scripts/release/notes.ts", "scripts/verify-generated-is-committed.ts", "test/**"]
+coverageThreshold = { lines = 0.9, functions = 0.9 }

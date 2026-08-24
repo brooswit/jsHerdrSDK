@@ -11,6 +11,8 @@ CI (`scripts/release/check.ts`) refuses a merge that changes `src/`, `schema/` o
 - **PATCH** — a fix or correction that requires no consumer code changes, or very minor ones.
 
 ## [0.1.1] - 2026-08-24
+### Added
+- In-process fake herdr for tests; the socket layer and every service wrapper are now covered without a running herdr. CI blocks merges under 90% line and function coverage.
 ### Changed
 - First release published by CI: npm provenance via trusted publishing, git tag and GitHub Release created automatically on merge to main.
 
