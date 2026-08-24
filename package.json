@@ -1,25 +1,37 @@
 {
   "name": "@brooswit/herdr-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Typed TypeScript client for the herdr socket API, generated from herdr's published JSON Schema",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
-  "files": ["dist", "schema"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "schema"
+  ],
   "scripts": {
-    "generate": "bun run scripts/gen/index.ts",
+    "generate": "bun run scripts/gen/index.ts && bun run scripts/load/generate.ts",
     "build": "bun run generate && bun build src/index.ts --outdir dist --target bun --sourcemap=external && tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "bun test",
-    "test:unit": "bun test test/unit",
+    "test:unit": "bun test test/unit test/load && bun run scripts/coverage/gate.ts",
     "test:live": "HERDR_LIVE=1 bun test test/live",
-    "check": "bun run generate && bun run typecheck && bun test test/unit && bun run scripts/verify-generated-is-committed.ts"
+    "check": "bun run generate && bun run typecheck && bun test test/unit test/load && bun run scripts/coverage/gate.ts && bun run scripts/verify-generated-is-committed.ts",
+    "release:check": "bun run scripts/release/check.ts",
+    "test:load": "bun test test/load"
   },
   "devDependencies": {
     "@types/bun": "^1.2.0",
     "typescript": "^5.6.0"
   },
-  "engines": { "bun": ">=1.1" }
+  "engines": {
+    "bun": ">=1.1"
+  }
 }
