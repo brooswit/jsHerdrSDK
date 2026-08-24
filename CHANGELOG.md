@@ -13,6 +13,10 @@ CI (`scripts/release/check.ts`) refuses a merge that changes `src/`, `schema/` o
 ## [0.1.1] - 2026-08-24
 ### Added
 - In-process fake herdr for tests; the socket layer and every service wrapper are now covered without a running herdr. CI blocks merges under 90% line and function coverage.
+### Added
+- Every source file has a generated load test, and a meta-test that every file has one — a file no test imports is invisible to coverage and could ship unparseable.
+- In-process fake herdr; the socket layer and all 91 service wrappers are tested without a running herdr. The code generator is tested and proven byte-identical to its committed output.
+- CI blocks merges under 90% whole-project line and function coverage.
 ### Changed
 - First release published by CI: npm provenance via trusted publishing, git tag and GitHub Release created automatically on merge to main.
 

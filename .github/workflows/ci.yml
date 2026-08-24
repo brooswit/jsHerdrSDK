@@ -14,7 +14,8 @@ jobs:
       - name: generated code matches schema
         run: bun run generate && bun run scripts/verify-generated-is-committed.ts
       - run: bun run typecheck
-      - run: bun test test/unit
+      - name: unit + load tests, coverage ≥ 90% lines and functions
+        run: bun test test/unit test/load && bun run scripts/coverage/gate.ts
       - name: build
         run: bun run build
       # Live tests need a running herdr and are run locally before merge:

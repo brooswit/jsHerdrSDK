@@ -17,14 +17,15 @@
     "schema"
   ],
   "scripts": {
-    "generate": "bun run scripts/gen/index.ts",
+    "generate": "bun run scripts/gen/index.ts && bun run scripts/load/generate.ts",
     "build": "bun run generate && bun build src/index.ts --outdir dist --target bun --sourcemap=external && tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "bun test",
-    "test:unit": "bun test test/unit",
+    "test:unit": "bun test test/unit test/load && bun run scripts/coverage/gate.ts",
     "test:live": "HERDR_LIVE=1 bun test test/live",
-    "check": "bun run generate && bun run typecheck && bun test test/unit && bun run scripts/verify-generated-is-committed.ts",
-    "release:check": "bun run scripts/release/check.ts"
+    "check": "bun run generate && bun run typecheck && bun test test/unit test/load && bun run scripts/coverage/gate.ts && bun run scripts/verify-generated-is-committed.ts",
+    "release:check": "bun run scripts/release/check.ts",
+    "test:load": "bun test test/load"
   },
   "devDependencies": {
     "@types/bun": "^1.2.0",
