@@ -17,6 +17,8 @@ CI (`scripts/release/check.ts`) refuses a merge that changes `src/`, `schema/` o
 - Every source file has a generated load test, and a meta-test that every file has one — a file no test imports is invisible to coverage and could ship unparseable.
 - In-process fake herdr; the socket layer and all 91 service wrappers are tested without a running herdr. The code generator is tested and proven byte-identical to its committed output.
 - CI blocks merges under 90% whole-project line and function coverage.
+### Fixed
+- `package.json` now declares `repository`, which npm provenance verification requires to match the building repo (the first CI publish was refused with E422 without it).
 ### Changed
 - First release published by CI: npm provenance via trusted publishing, git tag and GitHub Release created automatically on merge to main.
 

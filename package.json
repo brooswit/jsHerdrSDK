@@ -3,6 +3,14 @@
   "version": "0.1.1",
   "description": "Typed TypeScript client for the herdr socket API, generated from herdr's published JSON Schema",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brooswit/jsHerdrSDK.git"
+  },
+  "homepage": "https://github.com/brooswit/jsHerdrSDK#readme",
+  "bugs": {
+    "url": "https://github.com/brooswit/jsHerdrSDK/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
