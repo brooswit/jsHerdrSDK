@@ -9,4 +9,6 @@ export class WorkspaceService extends Service {
   rename(p: params.WorkspaceRenameParams) { return this.call("workspace.rename", p); }
   close(p: params.WorkspaceTarget) { return this.call("workspace.close", p); }
   reportMetadata(p: params.WorkspaceReportMetadataParams) { return this.call("workspace.report_metadata", p); }
+  move(p: params.WorkspaceMoveParams) { return this.call("workspace.move", p); }
+  moveBlock(p: params.WorkspaceMoveBlockParams) { return this.call("workspace.move_block", p); }
 }

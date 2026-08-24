@@ -1,0 +1,26 @@
+name: release
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: read
+  id-token: write   # npm provenance / trusted publishing
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: latest }
+      - uses: actions/setup-node@v4
+        with: { node-version: "22", registry-url: "https://registry.npmjs.org" }
+      - run: bun install --frozen-lockfile
+      - run: bun run check
+      - run: bun run build
+      - name: tag matches package.json version
+        run: |
+          v=$(node -p "require('./package.json').version")
+          [ "refs/tags/v$v" = "$GITHUB_REF" ] || { echo "tag $GITHUB_REF != package.json v$v"; exit 1; }
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}   # unused once trusted publishing is linked

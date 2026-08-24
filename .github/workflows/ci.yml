@@ -19,3 +19,20 @@ jobs:
         run: bun run build
       # Live tests need a running herdr and are run locally before merge:
       #   HERDR_LIVE=1 bun test test/live
+
+  parity:
+    name: parity with latest herdr
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: latest }
+      - run: bun install --frozen-lockfile
+      - name: install latest herdr
+        run: |
+          export HERDR_INSTALL_DIR="$RUNNER_TEMP/herdr-bin"
+          curl -fsSL https://herdr.dev/install.sh | sh
+          echo "HERDR_BIN=$HERDR_INSTALL_DIR/herdr" >> "$GITHUB_ENV"
+          "$HERDR_INSTALL_DIR/herdr" --version
+      - name: SDK matches installed herdr (version, API inventory, wrapper coverage)
+        run: bun run scripts/parity/check.ts

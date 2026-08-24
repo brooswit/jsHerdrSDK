@@ -2,7 +2,7 @@ import type { RpcOptions } from "./client/rpc.js";
 import { defaultSocketPath } from "./transport/socket-path.js";
 import { Subscription } from "./events/subscription.js";
 import type { Subscription as SubscriptionSpec } from "./generated/params.js";
-import { AgentService, PaneService, ServerService, SessionService, TabService, WorkspaceService, WorktreeService } from "./services/index.js";
+import { AgentService, ClientUiService, EventsService, IntegrationService, LayoutService, PaneService, PluginService, ServerService, SessionService, TabService, WorkspaceService, WorktreeService } from "./services/index.js";
 import { rpc } from "./client/rpc.js";
 import type { Method } from "./generated/params.js";
 import type { ParamsOf, ResultOf } from "./client/typed.js";
@@ -22,6 +22,11 @@ export class HerdrClient {
   readonly workspace: WorkspaceService;
   readonly tab: TabService;
   readonly worktree: WorktreeService;
+  readonly layout: LayoutService;
+  readonly plugin: PluginService;
+  readonly integration: IntegrationService;
+  readonly ui: ClientUiService;
+  readonly events: EventsService;
 
   constructor(o: HerdrClientOptions = {}) {
     this.opts = { socketPath: o.socketPath ?? defaultSocketPath(), ...(o.timeoutMs !== undefined ? { timeoutMs: o.timeoutMs } : {}) };
@@ -32,6 +37,11 @@ export class HerdrClient {
     this.workspace = new WorkspaceService(this.opts);
     this.tab = new TabService(this.opts);
     this.worktree = new WorktreeService(this.opts);
+    this.layout = new LayoutService(this.opts);
+    this.plugin = new PluginService(this.opts);
+    this.integration = new IntegrationService(this.opts);
+    this.ui = new ClientUiService(this.opts);
+    this.events = new EventsService(this.opts);
   }
 
   /** Escape hatch: any of the 91 methods, fully typed. */

@@ -18,4 +18,18 @@ export class PaneService extends Service {
   reportAgent(p: params.PaneReportAgentParams) { return this.call("pane.report_agent", p); }
   reportAgentSession(p: params.PaneReportAgentSessionParams) { return this.call("pane.report_agent_session", p); }
   releaseAgent(p: params.PaneReleaseAgentParams) { return this.call("pane.release_agent", p); }
+  swap(p: params.PaneSwapParams) { return this.call("pane.swap", p); }
+  move(p: params.PaneMoveParams) { return this.call("pane.move", p); }
+  zoom(p: params.PaneZoomParams) { return this.call("pane.zoom", p); }
+  layout(p: params.PaneLayoutParams) { return this.call("pane.layout", p); }
+  neighbor(p: params.PaneNeighborParams) { return this.call("pane.neighbor", p); }
+  edges(p: params.PaneEdgesParams) { return this.call("pane.edges", p); }
+  focusDirection(p: params.PaneFocusDirectionParams) { return this.call("pane.focus_direction", p); }
+  resize(p: params.PaneResizeParams) { return this.call("pane.resize", p); }
+  setInput(p: params.PaneInputSetParams) { return this.call("pane.input.set", p); }
+  setGraphics(p: params.PaneGraphicsSetParams) { return this.call("pane.graphics.set", p); }
+  clearGraphics(p: params.PaneGraphicsClearParams) { return this.call("pane.graphics.clear", p); }
+  graphicsInfo(pane_id: string) { return this.call("pane.graphics.info", { pane_id }); }
+  reportMetadata(p: params.PaneReportMetadataParams) { return this.call("pane.report_metadata", p); }
+  clearAgentAuthority(p: params.PaneClearAgentAuthorityParams) { return this.call("pane.clear_agent_authority", p); }
 }
