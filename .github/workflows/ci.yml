@@ -36,3 +36,18 @@ jobs:
           "$HERDR_INSTALL_DIR/herdr" --version
       - name: SDK matches installed herdr (version, API inventory, wrapper coverage)
         run: bun run scripts/parity/check.ts
+
+  release-gate:
+    name: release gate
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: latest }
+      - uses: actions/setup-node@v4
+        with: { node-version: "22" }
+      - run: bun install --frozen-lockfile
+      - run: bun run scripts/release/check.ts
+        env: { RELEASE_BASE: "origin/${{ github.base_ref }}" }
