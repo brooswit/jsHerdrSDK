@@ -10,6 +10,10 @@ CI (`scripts/release/check.ts`) refuses a merge that changes `src/`, `schema/` o
 - **MINOR** — a new feature, or a change to an existing feature that breaks just that feature. Also the floor whenever `schema/herdr-api.schema.json` changes.
 - **PATCH** — a fix or correction that requires no consumer code changes, or very minor ones.
 
+## [0.1.3] - 2026-08-26
+### Changed
+- Repository moved to the brooswit-factory org; package.json repository/homepage/bugs URLs updated (npm provenance verifies repository.url against the building repo).
+
 ## [0.1.2] - 2026-08-24
 ### Fixed
 - `package.json` now declares `repository`. npm provenance verification requires it to match the building repo; without it the registry refused 0.1.1 with E422, so 0.1.1 was never published and this is the first CI-published release.
